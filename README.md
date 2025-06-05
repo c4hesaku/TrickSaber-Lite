@@ -1,8 +1,8 @@
-# TrickSaber for Beat Saber (Meta Quest)
+# TriickSaber for Beat Saber (Meta Quest)
 
 Unleash your inner Jedi (or Sith!) with TriickSaber for the Meta Quest version of Beat Saber! This mod allows you to perform stylish spins and throws with your sabers, adding a new layer of flair and skill to your gameplay.
 
-- **Current Version:** [0.0.1]
+- **Current Version:** [0.0.1] (Alpha)
 - **Compatible Beat Saber Version:** [1.37]
 
 ![Cover Image](cover.png)
@@ -96,7 +96,7 @@ The resulting `.qmod` will be in the project's root directory.
 
 ## Credits
 *   **Core Libraries:** Immense thanks to the developers of `beatsaber-hook`, `bs-cordl`, `BSML`, `config-utils`, `custom-types`, and other foundational libraries that power Quest modding.
-*   **Initial Guide:** Followed from the [BS Modding Guide by danrouse](https://github.com/danrouse/beatsaber-quest-modding-guide).
+*   **Initial Guide:** Followed from danrouse's [BS Modding Guide](https://github.com/danrouse/beatsaber-quest-modding-guide).
 *   **Project Template:** Adapted from Tatenshi's [RandomSongPicker](https://github.com/Tatenshi/RandomSongPicker).
 *   **Concept Inspiration:** The idea for TrickSaber was inspired by existing PC/Quest TrickSaber mods (no code directly used or viewed).
 *   **AI Assistant:** Gemini 2.5 Pro provided development and documentation assistance. ChatGPT for cover image.
