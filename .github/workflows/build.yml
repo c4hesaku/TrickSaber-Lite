@@ -122,11 +122,10 @@ jobs:
       - name: Setup QPM, Restore Deps, and Resolve NDK
         uses: fernthedev/qpm-action@v1
         with:
-          # GITHUB_TOKEN is automatically available to actions
-          # workflow_token: ${{ secrets.GITHUB_TOKEN }} # Not always needed for public QPM operations
-          restore: true         # Run qpm restore
-          resolve_ndk: true     # Let QPM action handle NDK based on qpm.json
-          cache_dependencies: true # Enable QPM action's dependency caching
+          workflow_token: ${{ secrets.GITHUB_TOKEN }}
+          restore: true
+          resolve_ndk: true
+          cache: true
 
       - name: Build shared library (.so)
         shell: pwsh # Assuming your build.ps1 is PowerShell
@@ -139,7 +138,7 @@ jobs:
         # If createqmod.ps1 uses the version for the qmod filename, ensure it can access it.
         # The version might be in mod.template.json now.
 
-      - name: Rename artifacts for consistency (if needed)
+      - name: Rename artifacts for consistency
         shell: bash
         run: |
           SO_NAME="${{ needs.qpm_info.outputs.override_so_name }}"
