@@ -51,5 +51,8 @@
       "additionalData": {}
     }
   ],
-  "workspace": null
+  "workspace": {
+    "ndk": "^27.2.12479018",
+    "qmodOutput": "./TriickSaber.qmod"
+  }
 }
