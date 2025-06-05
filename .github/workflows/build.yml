@@ -120,7 +120,7 @@ jobs:
           JQ_VERSION: ${{ steps.version_extraction.outputs.final_version }} # For potential jq script usage
 
       - name: Setup QPM, Restore Deps, and Resolve NDK
-        uses: fernthedev/qpm-action@v1.2.0 # Use a specific version of the action
+        uses: fernthedev/qpm-action@v1
         with:
           # GITHUB_TOKEN is automatically available to actions
           # workflow_token: ${{ secrets.GITHUB_TOKEN }} # Not always needed for public QPM operations
