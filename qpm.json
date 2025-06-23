@@ -1,25 +1,27 @@
 {
+  "$schema": "https://raw.githubusercontent.com/QuestPackageManager/QPM.Package/refs/heads/main/qpm.schema.json",
+  "version": "0.4.0",
   "sharedDir": "shared",
   "dependenciesDir": "extern",
   "info": {
-    "name": "TriickSaber",
-    "id": "TriickSaber",
-    "version": "0.0.1",
+    "name": "TrickSaberLite",
+    "id": "TrickSaberLite",
+    "version": "1.0.0",
     "url": null,
     "additionalData": {
       "cmake": true,
-      "overrideSoName": "libTriickSaber.so"
+      "overrideSoName": "libTrickSaberLite.so"
     }
   },
   "dependencies": [
     {
       "id": "beatsaber-hook",
-      "versionRange": "^5.1.9",
+      "versionRange": "^6.4.2",
       "additionalData": {}
     },
     {
       "id": "scotland2",
-      "versionRange": "^0.1.4",
+      "versionRange": "^0.1.6",
       "additionalData": {
         "includeQmod": false,
         "private": true
@@ -27,32 +29,33 @@
     },
     {
       "id": "bs-cordl",
-      "versionRange": "^3700.0.0",
+      "versionRange": "^4006.*",
       "additionalData": {}
     },
     {
       "id": "custom-types",
-      "versionRange": "^0.17.10",
+      "versionRange": "^0.18.3",
       "additionalData": {}
     },
     {
       "id": "config-utils",
-      "versionRange": "^1.4.2",
+      "versionRange": "^2.0.3",
       "additionalData": {}
     },
     {
       "id": "bsml",
-      "versionRange": "^0.4.43",
+      "versionRange": "^0.4.53",
       "additionalData": {}
     },
     {
-      "id": "paper",
-      "versionRange": "^3.6.3",
+      "id": "paper2_scotland2",
+      "versionRange": "^4.6.4",
+      "additionalData": {}
+    },
+    {
+      "id": "metacore",
+      "versionRange": "^1.3.0",
       "additionalData": {}
     }
-  ],
-  "workspace": {
-    "ndk": "^27.2.12479018",
-    "qmodOutput": "./TriickSaber.qmod"
-  }
+  ]
 }

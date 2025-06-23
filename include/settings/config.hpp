@@ -3,7 +3,7 @@
 #include "config-utils/shared/config-utils.hpp"
 
 
-DECLARE_CONFIG(TrickSaberConfig,
+DECLARE_CONFIG(TrickSaberConfig) {
     CONFIG_VALUE(ModEnabled, bool, "Enable TriickSaber Mod", true, "Toggles the entire mod on or off.");
 
     CONFIG_VALUE(LeftSaberSpinButton, int, "Left Saber Spin Button", 0, "Button to activate left saber spin.");
@@ -24,4 +24,4 @@ DECLARE_CONFIG(TrickSaberConfig,
     CONFIG_VALUE(RightSaberThrowVelocityMultiplier, float, "Right Throw Velocity Multiplier", 3.0f, "Multiplier for the initial throw velocity of the right saber."); 
     CONFIG_VALUE(RightSaberReturnDuration, float, "Right Saber Return Duration (sec)", 0.2f, "Time it takes for a thrown saber to return. Shorter is faster.");
 
-)
+};

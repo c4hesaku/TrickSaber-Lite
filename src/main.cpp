@@ -1,5 +1,6 @@
 #include "main.hpp"
 #include "logger.hpp"
+#include "util.hpp"
 
 #ifndef M_PI
     #define M_PI 3.14159265358979323846
@@ -120,8 +121,8 @@ MAKE_HOOK_MATCH(MainMenuViewController_DidActivate_Hook, &GlobalNamespace::MainM
 
 // --- Hook to find Sabers via SaberModelController::Init ---
 MAKE_HOOK_MATCH(SaberModelController_Init_Hook, &GlobalNamespace::SaberModelController::Init, void,
-    GlobalNamespace::SaberModelController* self, UnityEngine::Transform* parent, GlobalNamespace::Saber* saber) {
-    SaberModelController_Init_Hook(self, parent, saber);
+    GlobalNamespace::SaberModelController* self, UnityEngine::Transform* parent, GlobalNamespace::Saber* saber, UnityEngine::Color color) {
+    SaberModelController_Init_Hook(self, parent, saber, color);
     if (!saber) { getLogger().error("[TS] [SMC] Saber is null"); return; }
     UnityEngine::Transform* currentSaberActualTransform = saber->get_transform();
     if (!currentSaberActualTransform) { getLogger().error("[TS] [SMC] Saber transform is null"); return; }
@@ -538,8 +539,6 @@ MAKE_HOOK_MATCH(TrickSaberInputUpdateHook, &GlobalNamespace::OculusVRHelper::Fix
 }
 
 
-
-// --- Mod Entry Points ---
 extern "C" __attribute__((visibility("default"))) void setup(CModInfo& info) {
     info.id = MOD_ID;
     info.version = VERSION;
@@ -550,17 +549,17 @@ extern "C" __attribute__((visibility("default"))) void late_load() {
 
     getTrickSaberConfig().Init(modInfo);
 
-    getLogger().info("[TS] [Main] Configuration initialized");
 
-    // Register settings
-    bool registrationSuccess = BSML::Register::RegisterSettingsMenu("TriickSaber Settings",
+    getLogger().info("Deactivated Score Submission safely !!");
+    TrickUtils::Utils::DisableScoreSubmission();
+
+    bool registrationSuccess = BSML::Register::RegisterSettingsMenu("TrickSaber Lite Settings",
      TrickSaber::UI::SettingsViewControllerDidActivate, false);
 
-    // Install hooks
-    auto logger = Paper::ConstLoggerContext("TriickSaber");
-    getLogger().info("[TS] [Main] Installing TriickSaber hooks...");
+    auto logger = Paper::ConstLoggerContext("TrickSaberLite");
+    getLogger().info("Installing Hooks..");
     INSTALL_HOOK(logger, MainMenuViewController_DidActivate_Hook);
     INSTALL_HOOK(logger, SaberModelController_Init_Hook);
     INSTALL_HOOK(logger, TrickSaberInputUpdateHook);  
-    getLogger().info("[TS] [Main] TriickSaber hooks installed");
+    getLogger().info("Hooks installed!!");
 }

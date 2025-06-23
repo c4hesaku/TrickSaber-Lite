@@ -1,13 +1,13 @@
 {
   "_QPVersion": "1.1.0",
-  "name": "TriickSaber",
-  "id": "TriickSaber",
+  "name": "TrickSaber Lite",
+  "id": "TrickSaberLite",
   "modloader": "Scotland2",
-  "author": "XODalG",
-  "version": "0.0.1",
+  "author": "XODalG, laynia",
+  "version": "1.0.0",
   "packageId": "com.beatgames.beatsaber",
-  "packageVersion": "1.37.0_9064817954",
-  "description": "Trick Saber",
+  "packageVersion": "1.40.6_6407",
+  "description": "Perform spins and throws with your sabers!",
   "coverImage": "cover.png",
   "dependencies": [
     {
@@ -28,7 +28,7 @@
   ],
   "modFiles": [],
   "lateModFiles": [
-    "libTriickSaber.so"
+    "libTrickSaberLite.so"
   ],
   "libraryFiles": [
     "libbeatsaber-hook_5_1_9.so"
