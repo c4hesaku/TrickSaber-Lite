@@ -4,13 +4,13 @@
   "sharedDir": "shared",
   "dependenciesDir": "extern",
   "info": {
-    "name": "TrickSaberLite",
-    "id": "TrickSaberLite",
-    "version": "1.0.0",
+    "name": "TrickSaber Lite",
+    "id": "tricksaberlite",
+    "version": "0.1.0",
     "url": null,
     "additionalData": {
-      "cmake": true,
-      "overrideSoName": "libTrickSaberLite.so"
+      "overrideSoName": "libtricksaberlite.so",
+      "cmake": true
     }
   },
   "workspace": {
@@ -71,30 +71,32 @@
       "./extern/libs"
     ],
     "qmodIncludeFiles": [],
-    "qmodOutput": "./TrickSaberLite.qmod"
+    "qmodOutput": "./TrickSaber Lite.qmod"
   },
   "dependencies": [
+    {
+      "id": "autohooks",
+      "versionRange": "^0.1.0",
+      "additionalData": {}
+    },
     {
       "id": "beatsaber-hook",
       "versionRange": "^6.4.2",
       "additionalData": {}
     },
     {
-      "id": "scotland2",
-      "versionRange": "^0.1.6",
-      "additionalData": {
-        "includeQmod": false,
-        "private": true
-      }
-    },
-    {
       "id": "bs-cordl",
-      "versionRange": "^4006.*",
+      "versionRange": "4006.*",
       "additionalData": {}
     },
     {
-      "id": "custom-types",
-      "versionRange": "^0.18.3",
+      "id": "mmkay",
+      "versionRange": "^0.2.1",
+      "additionalData": {}
+    },
+    {
+      "id": "paper2_scotland2",
+      "versionRange": "^4.6.4",
       "additionalData": {}
     },
     {
@@ -108,14 +110,16 @@
       "additionalData": {}
     },
     {
-      "id": "paper2_scotland2",
-      "versionRange": "^4.6.4",
-      "additionalData": {}
-    },
-    {
       "id": "metacore",
       "versionRange": "^1.3.0",
       "additionalData": {}
+    },
+    {
+      "id": "scotland2",
+      "versionRange": "^0.1.6",
+      "additionalData": {
+        "includeQmod": false
+      }
     }
   ]
 }

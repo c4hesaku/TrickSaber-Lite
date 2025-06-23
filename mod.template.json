@@ -1,18 +1,16 @@
 {
   "$schema": "https://raw.githubusercontent.com/Lauriethefish/QuestPatcher.QMod/main/QuestPatcher.QMod/Resources/qmod.schema.json",
-  "_QPVersion": "1.1.0",
+  "_QPVersion": "0.1.1",
   "name": "${mod_name}",
   "id": "${mod_id}",
-  "author": "XODalG, laynia",
-  "version": "1.0.0",
-  "modloader": "Scotland2",
+  "coverImage": "cover.png",
+  "author": "laynia",
+  "version": "${version}",
   "packageId": "com.beatgames.beatsaber",
   "packageVersion": "1.40.6_6407",
-  "coverImage": "cover.png",
   "description": "Perform spins and throws with your sabers!",
   "dependencies": [],
-  "modFiles": [],
-  "lateModFiles": [
+  "modFiles": [
     "${binary}"
   ],
   "libraryFiles": [],

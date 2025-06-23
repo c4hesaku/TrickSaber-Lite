@@ -1,100 +1,86 @@
-# include some defines automatically made by qpm
-include(qpm_defines.cmake)
+cmake_minimum_required(VERSION 3.22)
 
-cmake_minimum_required(VERSION 3.21)
-project(${COMPILE_ID})
+option(QUEST "Build for quest" ON)
 
-# c++ standard
+# Globals
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED 20)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
-# define that stores the actual source directory
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# stop symbol leaking
-add_link_options(-Wl,--exclude-libs,ALL)
+add_compile_options(-frtti -fexceptions -fvisibility=hidden -fPIE -fPIC -Wno-invalid-offsetof -Werror=nonportable-include-path)
 
-# compile options used
-add_compile_options(-frtti -fexceptions -fvisibility=hidden)
-add_compile_options(-O3)
-# compile definitions used
-add_compile_definitions(VERSION=\"${MOD_VERSION}\")
-add_compile_definitions(MOD_ID=\"${MOD_ID}\")
+# Include. Include order matters!
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/utils.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/qpm.cmake)
+
+set(GIT_HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/include/git-info.h)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/git.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/write-version.cmake)
+
+if(${CMAKE_BUILD_TYPE} STREQUAL "RELEASE" OR ${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo" OR ${CMAKE_BUILD_TYPE} STREQUAL "MinSizeRel")
+        # Better optimizations
+        add_compile_options(-O3)
+
+        # LTO
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+        add_compile_options(-flto)
+endif()
+
+if(${CMAKE_BUILD_TYPE} STREQUAL "DEBUG" OR ${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
+        add_compile_options(-g)
+endif()
+
+# Targets
+if(QUEST)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/targets/quest.cmake)
+endif()
+
+# Post build
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/strip.cmake)
+
+# stop symbols leaking
+# TODO: Fix
+# add_link_options(-Wl, --exclude-libs, ALL)
+project( tricksaberlite
+        VERSION ${PACKAGE_VERSION})
+
+add_compile_definitions(MOD_ID="${CMAKE_PROJECT_NAME}")
+add_compile_definitions(VERSION="${CMAKE_PROJECT_VERSION}")
+
+# Set COMPILE_ID for qpm purposes
+set(COMPILE_ID ${CMAKE_PROJECT_NAME})
 
 # recursively get all src files
 RECURSE_FILES(cpp_file_list ${SOURCE_DIR}/*.cpp)
 RECURSE_FILES(c_file_list ${SOURCE_DIR}/*.c)
 
-recurse_files(inline_hook_c ${EXTERN_DIR}/includes/beatsaber-hook/shared/inline-hook/*.c)
-recurse_files(inline_hook_cpp ${EXTERN_DIR}/includes/beatsaber-hook/shared/inline-hook/*.cpp)
-
-# add all src files to compile
 add_library(
-    ${COMPILE_ID} SHARED ${cpp_file_list} ${c_file_list} ${inline_hook_c} ${inline_hook_cpp}
+        ${CMAKE_PROJECT_NAME}
+        SHARED
+        ${cpp_file_list}
+        ${c_file_list}
 )
 
+# for inline hook
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE -llog)
 
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${INCLUDE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${SHARED_DIR})
 
-target_include_directories(${COMPILE_ID} PRIVATE .)
+# beatsaber hook inline hook
 
-# add src dir as include dir
-target_include_directories(${COMPILE_ID} PRIVATE ${SOURCE_DIR})
-# add include dir as include dir
-target_include_directories(${COMPILE_ID} PRIVATE ${INCLUDE_DIR})
-# add shared dir as include dir
-target_include_directories(${COMPILE_ID} PUBLIC ${SHARED_DIR})
-# codegen includes 
-target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGEN_ID}/include)
+RECURSE_FILES(src_inline_hook_beatsaber_hook_local_extra_c ${EXTERN_DIR}/includes/beatsaber-hook/shared/inline-hook/*.c)
+RECURSE_FILES(src_inline_hook_beatsaber_hook_local_extra_cpp ${EXTERN_DIR}/includes/beatsaber-hook/shared/inline-hook/*.cpp)
+target_sources(${COMPILE_ID} PRIVATE ${src_inline_hook_beatsaber_hook_local_extra_c})
+target_sources(${COMPILE_ID} PRIVATE ${src_inline_hook_beatsaber_hook_local_extra_cpp})
 
-target_link_libraries(${COMPILE_ID} PRIVATE -llog)
-# add extern stuff like libs and other includes
-include(extern.cmake)
+# Include "mmkay" if it exists, mmkay?
+if(EXISTS "${EXTERN_DIR}/includes/mmkay/shared/mmkay.cmake")
+        include("${EXTERN_DIR}/includes/mmkay/shared/mmkay.cmake")
+endif()
 
-add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_STRIP} -d --strip-all
-        "lib${COMPILE_ID}.so" -o "stripped_lib${COMPILE_ID}.so"
-        COMMENT "Strip debug symbols done on final binary.")
-
-add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory debug
-        COMMENT "Make directory for debug symbols"
-        )
-
-add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rename lib${COMPILE_ID}.so debug/lib${COMPILE_ID}.so
-        COMMENT "Rename the lib to debug_ since it has debug symbols"
-        )
-
-# strip debug symbols from the .so and all dependencies
-add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rename stripped_lib${COMPILE_ID}.so lib${COMPILE_ID}.so
-        COMMENT "Rename the stripped lib to regular"
-        )
-        foreach(so_file ${so_list})
-                message(STATUS "----------------------------------------------------")
-                message(STATUS "Processing dependency SO: ${so_file}")
-        
-                cmake_path(GET so_file FILENAME original_filename_with_ext)
-                message(STATUS "  Original Filename with Ext: ${original_filename_with_ext}")
-        
-                cmake_path(GET original_filename_with_ext STEM filename_stem)
-                message(STATUS "  Stem from cmake_path: ${filename_stem}")
-                
-                set(final_filename "${filename_stem}.so")
-                message(STATUS "  Final Filename for stripped output: ${final_filename}")
-                message(STATUS "  Output path for stripped: ${CMAKE_BINARY_DIR}/${final_filename}")
-        
-                add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-                        COMMAND ${CMAKE_COMMAND} -E copy ${so_file} ${CMAKE_BINARY_DIR}/debug/${original_filename_with_ext}
-                        COMMAND_EXPAND_LISTS
-                        COMMENT "Copy original dependency ${original_filename_with_ext} to debug/ for ndk stack"
-                )
-                
-                add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
-                        COMMAND ${CMAKE_STRIP} -g -S -d --strip-all ${so_file} -o ${CMAKE_BINARY_DIR}/${final_filename}
-                        COMMAND_EXPAND_LISTS
-                        COMMENT "Strip dependency ${original_filename_with_ext} to ${final_filename}")
-                message(STATUS "----------------------------------------------------")
-        endforeach()
+# Include user includes
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/user-includes.cmake")
