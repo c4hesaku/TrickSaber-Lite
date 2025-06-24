@@ -91,6 +91,11 @@
         "additionalData": {}
       },
       {
+        "id": "custom-types",
+        "versionRange": "^0.18.3",
+        "additionalData": {}
+      },
+      {
         "id": "mmkay",
         "versionRange": "^0.2.1",
         "additionalData": {}
@@ -241,6 +246,26 @@
     },
     {
       "dependency": {
+        "id": "custom-types",
+        "versionRange": "=0.18.3",
+        "additionalData": {
+          "soLink": "https://github.com/QuestPackageManager/Il2CppQuestTypePatching/releases/download/v0.18.3/libcustom-types.so",
+          "debugSoLink": "https://github.com/QuestPackageManager/Il2CppQuestTypePatching/releases/download/v0.18.3/debug_libcustom-types.so",
+          "overrideSoName": "libcustom-types.so",
+          "modLink": "https://github.com/QuestPackageManager/Il2CppQuestTypePatching/releases/download/v0.18.3/CustomTypes.qmod",
+          "branchName": "version/v0_18_3",
+          "compileOptions": {
+            "cppFlags": [
+              "-Wno-invalid-offsetof"
+            ]
+          },
+          "cmake": true
+        }
+      },
+      "version": "0.18.3"
+    },
+    {
+      "dependency": {
         "id": "mmkay",
         "versionRange": "=0.2.1",
         "additionalData": {
@@ -249,18 +274,6 @@
         }
       },
       "version": "0.2.1"
-    },
-    {
-      "dependency": {
-        "id": "rapidjson-macros",
-        "versionRange": "=2.1.0",
-        "additionalData": {
-          "headersOnly": true,
-          "branchName": "version/v2_1_0",
-          "cmake": false
-        }
-      },
-      "version": "2.1.0"
     },
     {
       "dependency": {
@@ -283,23 +296,15 @@
     },
     {
       "dependency": {
-        "id": "custom-types",
-        "versionRange": "=0.18.3",
+        "id": "rapidjson-macros",
+        "versionRange": "=2.1.0",
         "additionalData": {
-          "soLink": "https://github.com/QuestPackageManager/Il2CppQuestTypePatching/releases/download/v0.18.3/libcustom-types.so",
-          "debugSoLink": "https://github.com/QuestPackageManager/Il2CppQuestTypePatching/releases/download/v0.18.3/debug_libcustom-types.so",
-          "overrideSoName": "libcustom-types.so",
-          "modLink": "https://github.com/QuestPackageManager/Il2CppQuestTypePatching/releases/download/v0.18.3/CustomTypes.qmod",
-          "branchName": "version/v0_18_3",
-          "compileOptions": {
-            "cppFlags": [
-              "-Wno-invalid-offsetof"
-            ]
-          },
-          "cmake": true
+          "headersOnly": true,
+          "branchName": "version/v2_1_0",
+          "cmake": false
         }
       },
-      "version": "0.18.3"
+      "version": "2.1.0"
     },
     {
       "dependency": {

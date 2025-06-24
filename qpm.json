@@ -90,6 +90,11 @@
       "additionalData": {}
     },
     {
+      "id": "custom-types",
+      "versionRange": "^0.18.3",
+      "additionalData": {}
+    },
+    {
       "id": "mmkay",
       "versionRange": "^0.2.1",
       "additionalData": {}

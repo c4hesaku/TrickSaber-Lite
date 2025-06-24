@@ -1,6 +1,6 @@
 # TrickSaber Lite
 
-d
+Perform spins and throws with your sabers!
 
 - `qpm s build` to build.
 - `qpm s clean` to build with a clean build path.
